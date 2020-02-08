@@ -10,6 +10,7 @@ D3DPRESENT_PARAMETERS d3dpp;
 IDirect3DDevice9* pDevice;
 ImGuiWindowFlags wf = 0;
 bool resized;
+ImFont* roboto;
 
 char expr[1024];
 double output = 0;
@@ -31,6 +32,7 @@ void D3D::DrawImGui()
 		ImGuiSetupStyle();
 		initstyle = true;
 	}
+
 	ImGui::Begin("ExpressionParser", 0, wf);
 	ImGui::Text("Enter your expression:");
 	ImGui::InputText("", expr, sizeof(expr));

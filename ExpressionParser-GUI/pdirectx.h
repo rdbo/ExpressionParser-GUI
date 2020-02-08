@@ -5,6 +5,7 @@
 #define DEFAULT_HEIGHT 480
 #define D3D_INTERVAL D3DPRESENT_INTERVAL_ONE //V-Sync On
 //#define D3D_INTERVAL D3DPRESENT_INTERVAL_IMMEDIATE //V-Sync Off
+#define FONT_SIZE 18
 #include "pch.h"
 extern WNDCLASSEX wc;
 extern HWND hwnd;
@@ -13,6 +14,7 @@ extern IDirect3D9* pD3D;
 extern D3DPRESENT_PARAMETERS d3dpp;
 extern IDirect3DDevice9* pDevice;
 extern bool resized;
+extern ImFont* roboto;
 
 namespace D3D
 {

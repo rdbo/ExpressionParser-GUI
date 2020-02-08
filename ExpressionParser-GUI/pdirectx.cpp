@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "pdirectx.h"
 #include "colors.h"
+#include "roboto_regular.h"
 
 bool CreateDeviceD3D(HWND hWnd);
 void ResizeImGuiWindow();
@@ -29,6 +30,10 @@ void D3D::Init(HINSTANCE hInstance, LPCWSTR wndName)
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.IniFilename = NULL;
+
+	ImFontConfig font_cfg;
+	font_cfg.FontDataOwnedByAtlas = false;
+	roboto = io.Fonts->AddFontFromMemoryTTF(roboto_regular, sizeof(roboto_regular), FONT_SIZE, &font_cfg);
 
 	ImGui_ImplWin32_Init(hwnd);
 	ImGui_ImplDX9_Init(pDevice);
