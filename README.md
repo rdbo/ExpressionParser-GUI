@@ -14,4 +14,4 @@
 <p>Operators: +-*/^%</p>
 <p>Math functions: pow(x,y), sqrt(x), log(x), exp(x), sin(x), cos(x), tan(x), atan(x), atan2(y,x), abs(x), floor(x), ceil(x)</p>
 
-<!--![alt text](https://github.com/rdbo/ExpressionParser-GUI/blob/master/expr_parser_screenshot.PNG)-->
+![alt text](https://github.com/rdbo/ExpressionParser-GUI/blob/master/expr_parser_capture.PNG)
