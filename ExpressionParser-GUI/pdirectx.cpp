@@ -2,6 +2,7 @@
 #include "pdirectx.h"
 #include "colors.h"
 #include "roboto_regular.h"
+#include "resource.h"
 
 bool CreateDeviceD3D(HWND hWnd);
 void ResizeImGuiWindow();
@@ -13,6 +14,7 @@ void D3D::Init(HINSTANCE hInstance, LPCWSTR wndName)
 	wc.style = CS_HREDRAW | CS_VREDRAW;
 	wc.lpfnWndProc = WindowProc;
 	wc.hInstance = hInstance;
+	wc.hIcon = static_cast<HICON>(LoadImage(hInstance, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 256, 256, LR_DEFAULTCOLOR));
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.lpszClassName = L"imguiApp";
 	RegisterClassEx(&wc);
