@@ -11,7 +11,7 @@
 <h1>How to use</h1>
 <p>Enter an expression in the input box, like '5*5' or 'sqrt(9)' and then click on 'Parse'. You'll have the result display right after the 'Output:' text</p>
 <p>What to input?</p>
-<p>Operators: +-*/!^%</p>
+<p>Operators: +-*/^%</p>
 <p>Math functions: pow(x,y), sqrt(x), log(x), exp(x), sin(x), cos(x), tan(x), atan(x), atan2(y,x), abs(x), floor(x), ceil(x)</p>
 
 ![alt text](https://github.com/rdbo/ExpressionParser-GUI/blob/master/expr_parser_screenshot.PNG)
