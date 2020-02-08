@@ -36,6 +36,7 @@ void D3D::Init(HINSTANCE hInstance, LPCWSTR wndName)
 	ImFontConfig font_cfg;
 	font_cfg.FontDataOwnedByAtlas = false;
 	roboto = io.Fonts->AddFontFromMemoryTTF(roboto_regular, sizeof(roboto_regular), FONT_SIZE, &font_cfg);
+	roboto2 = io.Fonts->AddFontFromMemoryTTF(roboto_regular, sizeof(roboto_regular), FONT_SIZE*2, &font_cfg);
 
 	ImGui_ImplWin32_Init(hwnd);
 	ImGui_ImplDX9_Init(pDevice);

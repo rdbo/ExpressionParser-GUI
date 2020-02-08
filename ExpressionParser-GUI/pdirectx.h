@@ -15,6 +15,7 @@ extern D3DPRESENT_PARAMETERS d3dpp;
 extern IDirect3DDevice9* pDevice;
 extern bool resized;
 extern ImFont* roboto;
+extern ImFont* roboto2;
 
 namespace D3D
 {

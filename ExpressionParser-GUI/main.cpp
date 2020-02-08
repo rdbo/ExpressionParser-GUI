@@ -11,6 +11,7 @@ IDirect3DDevice9* pDevice;
 ImGuiWindowFlags wf = 0;
 bool resized;
 ImFont* roboto;
+ImFont* roboto2;
 
 char expr[1024];
 double output = 0;
@@ -34,6 +35,12 @@ void D3D::DrawImGui()
 	}
 
 	ImGui::Begin("ExpressionParser", 0, wf);
+
+	ImGui::PushFont(roboto2);
+	ImGui::TextColored(COLOR_BLUE, "ExpressionParser");
+	ImGui::PopFont();
+
+	ImGui::PushFont(roboto);
 	ImGui::Text("Enter your expression:");
 	ImGui::InputText("", expr, sizeof(expr));
 	if (ImGui::Button("Parse"))
@@ -45,6 +52,7 @@ void D3D::DrawImGui()
 		outputstr << output;
 	}
 	ImGui::Text(outputstr.str().c_str());
+	ImGui::PopFont();
 	ImGui::End();
 }
 
