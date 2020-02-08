@@ -48,6 +48,9 @@
     <ClCompile Include="tinyexpr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="pmath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -88,6 +91,12 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pmath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="roboto_regular.h">
+      <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

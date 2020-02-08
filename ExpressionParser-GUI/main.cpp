@@ -45,7 +45,7 @@ void D3D::DrawImGui()
 	ImGui::InputText("", expr, sizeof(expr));
 	if (ImGui::Button("Parse"))
 	{
-		output = te_interp(expr, 0);
+		output = pinterp(expr, 0);
 		outputstr.str("");
 		outputstr.clear();
 		outputstr << "Output: ";
