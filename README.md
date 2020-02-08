@@ -12,6 +12,6 @@
 <p>Enter an expression in the input box, like '5*5' or 'sqrt(9)' and then click on 'Parse'. You'll have the result display right after the 'Output:' text</p>
 <p>What to input?</p>
 <p>Operators: +-*/^%</p>
-<p>Math functions: abs, acos, asin, atan, atan2, ceil, cos, cosh, e, exp, fac, floor, ln, log, ncr, npr, pi, pow, sin, sinh, sqrt, tan, tanh</p>
+<p>Math functions: abs, acos, asin, atan, atan2, ceil, cos, cosh, e, exp, fac, floor, ln, log, ncr, npr, pi, pow, root, sin, sinh, sqrt, tan, tanh</p>
 
 ![alt text](https://github.com/rdbo/ExpressionParser-GUI/blob/master/expr_parser_capture.PNG)
