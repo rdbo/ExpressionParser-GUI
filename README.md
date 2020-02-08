@@ -8,4 +8,7 @@
   <li><b>Done!</b></li>
 </ul>
 
+<h1>How to use</h1>
+<p>Enter an expression in the input box, like '5*5' or 'sqrt(9)' and then click on 'Parse'. You'll have the result display right after the 'Output:' text</p>
+
 ![alt text](https://github.com/rdbo/ExpressionParser-GUI/blob/master/expr_parser_screenshot.PNG)
