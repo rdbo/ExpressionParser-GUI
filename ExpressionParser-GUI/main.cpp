@@ -3,6 +3,7 @@
 #include "colors.h"
 #define MAX_DECIMALS 15
 #define MAX_OPERATIONS 1000
+#define DEFAULT_MAX 1024
 #define DEFAULT_ID 0
 #define DEFAULT_BTN 25
 #define BTN_VEC ImVec2(DEFAULT_BTN, DEFAULT_BTN)
@@ -18,7 +19,9 @@ bool resized;
 ImFont* roboto;
 ImFont* roboto2;
 
-char expr[MAX_OPERATIONS][1024];
+char expr[MAX_OPERATIONS][DEFAULT_MAX];
+int intIn = 0;
+char hexOut[DEFAULT_MAX] = "0x0";
 int decimals[MAX_OPERATIONS];
 int tdecimals[MAX_OPERATIONS];
 double output[MAX_OPERATIONS];
@@ -81,6 +84,23 @@ void D3D::DrawImGui()
 	ImGui::PopFont();
 	ImGui::Separator();
 	ImGui::PushFont(roboto);
+	ImGui::Text("Convert to Hexadecimal");
+	ImGui::Text("Input: "); ImGui::SameLine();
+	if (ImGui::InputInt(CreateNewLabel("").c_str(), &intIn))
+	{
+		snprintf(hexOut, sizeof(hexOut), "0x%x", intIn);
+		for (int i = 0; i < sizeof(hexOut); i++)
+		{
+			if (!isupper(hexOut[i]) && hexOut[i] != 'x')
+			{
+				hexOut[i] = toupper(hexOut[i]);
+			}
+		}
+	}
+
+	ImGui::Text("Output: "); ImGui::SameLine();
+	ImGui::InputText(CreateNewLabel("").c_str(), hexOut, sizeof(hexOut), ImGuiInputTextFlags_ReadOnly);
+	ImGui::Separator();
 	for(int i = 1; i <= operations; i++)
 	{
 		ImGui::Text("Enter your expression: ");
