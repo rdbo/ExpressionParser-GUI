@@ -2,6 +2,10 @@
 #include "pdirectx.h"
 #include "colors.h"
 #define MAX_DECIMALS 15
+#define MAX_OPERATIONS 1000
+#define DEFAULT_ID 0
+#define DEFAULT_BTN 25
+#define BTN_VEC ImVec2(DEFAULT_BTN, DEFAULT_BTN)
 
 WNDCLASSEX wc;
 HWND hwnd;
@@ -14,25 +18,51 @@ bool resized;
 ImFont* roboto;
 ImFont* roboto2;
 
-char expr[1024];
-int decimals = 5;
-int tdecimals = decimals;
-double output = 0;
-char buffer[10];
+char expr[MAX_OPERATIONS][1024];
+int decimals[MAX_OPERATIONS];
+int tdecimals[MAX_OPERATIONS];
+double output[MAX_OPERATIONS];
+char buffer[MAX_OPERATIONS][10];
+int id = DEFAULT_ID;
+int operations = 1;
 
 void ImGuiSetupStyle();
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
-	snprintf(buffer, sizeof(buffer), "%s%i%s", "%.", decimals, "f");
+	snprintf(buffer[1], sizeof(buffer[1]), "%s%i%s", "%.", decimals[1], "f");
 	D3D::Init(hInstance, L"ExpressionParser by rdbo");
 	return 0;
 }
 
-void Solve()
+void Solve(int i)
 {
-	output = pinterp(expr);
-	snprintf(buffer, sizeof(buffer), "%s%i%s", "%.", decimals, "f");
+	output[i] = pinterp(expr[i]);
+	snprintf(buffer[i], sizeof(buffer[i]), "%s%i%s", "%.", decimals[i], "f");
+}
+
+std::string CreateNewLabel(const char* label)
+{
+	id += 1;
+	std::string s;
+	s = label;
+	s += "##";
+	s += std::to_string(id);
+	return s;
+}
+
+void ResetID()
+{
+	id = DEFAULT_ID;
+}
+
+void ResetOperation(int i)
+{
+	memset(expr[i], {}, sizeof(expr[i]));
+	decimals[i] = 0;
+	tdecimals[i] = 0;
+	output[i] = 0;
+	memset(buffer[i], {}, sizeof(buffer[i]));
 }
 
 bool initstyle = false;
@@ -49,27 +79,41 @@ void D3D::DrawImGui()
 	ImGui::PushFont(roboto2);
 	ImGui::TextColored(COLOR_BLUE, "ExpressionParser");
 	ImGui::PopFont();
-
+	ImGui::Separator();
 	ImGui::PushFont(roboto);
-	ImGui::Text("Enter your expression:");
-	if (ImGui::InputText("", expr, sizeof(expr), ImGuiInputTextFlags_EnterReturnsTrue))
-		Solve();
-	if (ImGui::Button("Parse"))
-		Solve();
-	ImGui::Text("Output: "); ImGui::SameLine();
-	ImGui::InputDouble(" ", &output, 0, 0, buffer, ImGuiInputTextFlags_ReadOnly);
-	ImGui::Text("Decimals: "); ImGui::SameLine();
-	if (ImGui::InputInt("   ", &tdecimals))
+	for(int i = 1; i <= operations; i++)
 	{
-		if (tdecimals > MAX_DECIMALS)
-			tdecimals = MAX_DECIMALS;
+		ImGui::Text("Enter your expression: ");
+		if (ImGui::InputText(CreateNewLabel("").c_str(), expr[i], sizeof(expr[i]), ImGuiInputTextFlags_EnterReturnsTrue))
+			Solve(i);
+		if (ImGui::Button(CreateNewLabel("Parse").c_str()))
+			Solve(i);
+		ImGui::Text("Output: "); ImGui::SameLine();
+		ImGui::InputDouble(CreateNewLabel("").c_str(), &output[i], 0, 0, buffer[i], ImGuiInputTextFlags_ReadOnly);
+		ImGui::Text("Decimals: "); ImGui::SameLine();
+		if (ImGui::InputInt(CreateNewLabel("").c_str(), &tdecimals[i]))
+		{
+			if (tdecimals[i] > MAX_DECIMALS)
+				tdecimals[i] = MAX_DECIMALS;
 
-		else if (tdecimals < 0)
-			tdecimals = 0;
+			else if (tdecimals[i] < 0)
+				tdecimals[i] = 0;
 
-		decimals = tdecimals;
-		snprintf(buffer, sizeof(buffer), "%s%i%s", "%.", decimals, "f");
+			decimals[i] = tdecimals[i];
+			snprintf(buffer[i], sizeof(buffer[i]), "%s%i%s", "%.", decimals[i], "f");
+		}
+		ImGui::Separator();
 	}
+	ImGui::Text("Add/Remove operations"); ImGui::SameLine();
+	if(ImGui::Button(CreateNewLabel("+").c_str(), BTN_VEC))
+		operations + 1 <= MAX_OPERATIONS ? operations += 1 : 0;
+	ImGui::SameLine();
+	if (ImGui::Button(CreateNewLabel("-").c_str(), BTN_VEC))
+	{
+		ResetOperation(operations);
+		operations - 1 >= 0 ? operations -= 1 : 0;
+	}
+	ResetID();
 	ImGui::PopFont();
 	ImGui::End();
 }
@@ -84,6 +128,7 @@ void ImGuiSetupStyle()
 	wf |= ImGuiWindowFlags_NoBackground;
 	ImGuiStyle& style = ImGui::GetStyle();
 	ImVec4* colors = style.Colors;
+	style.WindowRounding = 0.f;
 	colors[ImGuiCol_Text] = COLOR_WHITE;
 	colors[ImGuiCol_FrameBg] =
 		colors[ImGuiCol_FrameBgHovered] =
@@ -91,6 +136,10 @@ void ImGuiSetupStyle()
 	colors[ImGuiCol_Button] = COLOR_DARK_BLUE;
 	colors[ImGuiCol_ButtonHovered] = COLOR_BLUE;
 	colors[ImGuiCol_ButtonActive] = COLOR_LIGHT_BLUE;
+	colors[ImGuiCol_ScrollbarBg] = COLOR_DARK_GRAY;
+	colors[ImGuiCol_ScrollbarGrab] = COLOR_LIGHT_GRAY;
+	colors[ImGuiCol_ScrollbarGrabHovered] = COLOR_LIGHTER_GRAY;
+	colors[ImGuiCol_ScrollbarGrabActive] = COLOR_LIGHTER_GRAY_2;
 }
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
