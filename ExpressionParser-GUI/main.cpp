@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "pdirectx.h"
 #include "colors.h"
+#define MAX_DECIMALS 15
 
 WNDCLASSEX wc;
 HWND hwnd;
@@ -14,15 +15,24 @@ ImFont* roboto;
 ImFont* roboto2;
 
 char expr[1024];
+int decimals = 5;
+int tdecimals = decimals;
 double output = 0;
-std::stringstream outputstr;
+char buffer[10];
 
 void ImGuiSetupStyle();
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
+	snprintf(buffer, sizeof(buffer), "%s%i%s", "%.", decimals, "f");
 	D3D::Init(hInstance, L"ExpressionParser by rdbo");
 	return 0;
+}
+
+void Solve()
+{
+	output = pinterp(expr);
+	snprintf(buffer, sizeof(buffer), "%s%i%s", "%.", decimals, "f");
 }
 
 bool initstyle = false;
@@ -42,16 +52,24 @@ void D3D::DrawImGui()
 
 	ImGui::PushFont(roboto);
 	ImGui::Text("Enter your expression:");
-	ImGui::InputText("", expr, sizeof(expr));
+	if (ImGui::InputText("", expr, sizeof(expr), ImGuiInputTextFlags_EnterReturnsTrue))
+		Solve();
 	if (ImGui::Button("Parse"))
+		Solve();
+	ImGui::Text("Output: "); ImGui::SameLine();
+	ImGui::InputDouble(" ", &output, 0, 0, buffer, ImGuiInputTextFlags_ReadOnly);
+	ImGui::Text("Decimals: "); ImGui::SameLine();
+	if (ImGui::InputInt("   ", &tdecimals))
 	{
-		output = pinterp(expr, 0);
-		outputstr.str("");
-		outputstr.clear();
-		outputstr << "Output: ";
-		outputstr << output;
+		if (tdecimals > MAX_DECIMALS)
+			tdecimals = MAX_DECIMALS;
+
+		else if (tdecimals < 0)
+			tdecimals = 0;
+
+		decimals = tdecimals;
+		snprintf(buffer, sizeof(buffer), "%s%i%s", "%.", decimals, "f");
 	}
-	ImGui::Text(outputstr.str().c_str());
 	ImGui::PopFont();
 	ImGui::End();
 }
