@@ -15,3 +15,5 @@
 <p>Math functions: abs, acos, asin, atan, atan2, ceil, cos, cosh, e, exp, fac, floor, ln, log, ncr, npr, pi, pow, root, sin, sinh, sqrt, tan, tanh</p>
 
 ![alt text](https://github.com/rdbo/ExpressionParser-GUI/blob/master/expr_parser_capture.PNG)
+
+<p>Credits: <a href="https://github.com/codeplea/tinyexpr">tinyexpr</a></p>
