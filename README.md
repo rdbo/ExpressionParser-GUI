@@ -16,4 +16,4 @@
 
 ![alt text](https://github.com/rdbo/ExpressionParser-GUI/blob/master/expr_parser_capture.PNG)
 
-<p>Credits: <a href="https://github.com/codeplea/tinyexpr">tinyexpr</a></br>         Roboto Font</p>
+<p>Credits: <a href="https://github.com/codeplea/tinyexpr">tinyexpr</a>,Roboto Font</p>
